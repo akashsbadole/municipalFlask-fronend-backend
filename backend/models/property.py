@@ -1,12 +1,13 @@
 from datetime import datetime
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class Property(db.Model):
     __tablename__ = 'properties'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     property_id = db.Column(db.String(20), unique=True, nullable=False)
     
     # Location details
@@ -47,7 +48,7 @@ class Property(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    owner_id = db.Column(UUID(as_uuid=True), db.ForeignKey('citizens.id'), nullable=False)
+    owner_id = db.Column(String(36), db.ForeignKey('citizens.id'), nullable=False)
     
     # Relationships
     taxes = db.relationship('PropertyTax', backref='property', lazy=True)

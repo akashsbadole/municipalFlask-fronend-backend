@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime, timedelta
 import uuid
-from app import db
+from extensions import db
 from models.water_connection import WaterConnection
 from models.water_meter_reading import WaterMeterReading
 from models.user import User

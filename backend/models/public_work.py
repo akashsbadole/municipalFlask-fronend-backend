@@ -1,12 +1,13 @@
 from datetime import datetime, date
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class PublicWork(db.Model):
     __tablename__ = 'public_works'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     work_id = db.Column(db.String(20), unique=True, nullable=False)
     
     # Work details
@@ -38,7 +39,7 @@ class PublicWork(db.Model):
     
     # Contractor details
     contractor_name = db.Column(db.String(100))
-    contractor_id = db.Column(UUID(as_uuid=True), db.ForeignKey('vendors.id'))
+    contractor_id = db.Column(String(36), db.ForeignKey('vendors.id'))
     
     # Technical details
     engineer_in_charge = db.Column(db.String(100))

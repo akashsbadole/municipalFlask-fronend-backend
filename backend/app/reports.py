@@ -20,7 +20,7 @@ from models.payroll import Payroll
 from models.public_work import PublicWork
 from models.tender import Tender
 from models.disaster_alert import DisasterAlert
-from app import db
+from extensions import db
 from utils.auth import token_required, check_permission
 
 reports_bp = Blueprint('reports', __name__, url_prefix='/reports')

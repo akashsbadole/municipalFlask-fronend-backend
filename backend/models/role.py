@@ -1,15 +1,16 @@
 from datetime import datetime
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 import uuid
 
 class Role(db.Model):
     __tablename__ = 'roles'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     name = db.Column(db.String(50), unique=True, nullable=False)
     description = db.Column(db.Text)
-    permissions = db.Column(ARRAY(db.String), default=[])
+    permissions = db.Column(db.JSON, default=[])
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

@@ -1,16 +1,17 @@
 from datetime import datetime
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class BuildingPlan(db.Model):
     __tablename__ = 'building_plans'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     application_number = db.Column(db.String(20), unique=True, nullable=False)
     
     # Property details
-    property_id = db.Column(UUID(as_uuid=True), db.ForeignKey('properties.id'))
+    property_id = db.Column(String(36), db.ForeignKey('properties.id'))
     plot_number = db.Column(db.String(20))
     area = db.Column(db.String(50), nullable=False)
     ward_number = db.Column(db.String(10), nullable=False)
@@ -50,27 +51,27 @@ class BuildingPlan(db.Model):
     # Approval details
     je_approved = db.Column(db.Boolean, default=False)
     je_approval_date = db.Column(db.DateTime)
-    je_approved_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    je_approved_by = db.Column(String(36), db.ForeignKey('users.id'))
     je_remarks = db.Column(db.Text)
     
     ae_approved = db.Column(db.Boolean, default=False)
     ae_approval_date = db.Column(db.DateTime)
-    ae_approved_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    ae_approved_by = db.Column(String(36), db.ForeignKey('users.id'))
     ae_remarks = db.Column(db.Text)
     
     tp_approved = db.Column(db.Boolean, default=False)
     tp_approval_date = db.Column(db.DateTime)
-    tp_approved_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    tp_approved_by = db.Column(String(36), db.ForeignKey('users.id'))
     tp_remarks = db.Column(db.Text)
     
     commissioner_approved = db.Column(db.Boolean, default=False)
     commissioner_approval_date = db.Column(db.DateTime)
-    commissioner_approved_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    commissioner_approved_by = db.Column(String(36), db.ForeignKey('users.id'))
     commissioner_remarks = db.Column(db.Text)
     
     # Rejection details
     rejection_reason = db.Column(db.Text)
-    rejected_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    rejected_by = db.Column(String(36), db.ForeignKey('users.id'))
     rejection_date = db.Column(db.DateTime)
     
     # Status and timestamps
@@ -79,11 +80,11 @@ class BuildingPlan(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    applicant_id = db.Column(UUID(as_uuid=True), db.ForeignKey('citizens.id'), nullable=False)
+    applicant_id = db.Column(String(36), db.ForeignKey('citizens.id'), nullable=False)
     
     # Relationships
     property = db.relationship('Property', backref='building_plans')
-    applicant = db.relationship('Citizen', backref='building_plans')
+    applicant = db.relationship('Citizen', back_populates='building_plans')
     je_approver = db.relationship('User', foreign_keys=[je_approved_by], backref='je_approved_plans')
     ae_approver = db.relationship('User', foreign_keys=[ae_approved_by], backref='ae_approved_plans')
     tp_approver = db.relationship('User', foreign_keys=[tp_approved_by], backref='tp_approved_plans')

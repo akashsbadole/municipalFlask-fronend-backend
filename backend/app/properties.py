@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
-from app import db
+from extensions import db
 from models.property import Property
 from models.property_tax import PropertyTax
 from models.user import User

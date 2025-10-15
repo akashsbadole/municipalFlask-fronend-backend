@@ -1,12 +1,13 @@
 from datetime import datetime, date
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class Complaint(db.Model):
     __tablename__ = 'complaints'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     complaint_number = db.Column(db.String(20), unique=True, nullable=False)
     
     # Complaint details
@@ -36,13 +37,13 @@ class Complaint(db.Model):
     # Resolution details
     resolution_notes = db.Column(db.Text)
     resolution_date = db.Column(db.DateTime)
-    resolved_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    resolved_by = db.Column(String(36), db.ForeignKey('users.id'))
     
     # Escalation details
     is_escalated = db.Column(db.Boolean, default=False)
     escalation_level = db.Column(db.Integer, default=0)  # 0: Not escalated, 1: Level 1, 2: Level 2, etc.
     escalation_date = db.Column(db.DateTime)
-    escalated_to = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    escalated_to = db.Column(String(36), db.ForeignKey('users.id'))
     
     # Feedback
     citizen_feedback = db.Column(db.Text)
@@ -54,9 +55,9 @@ class Complaint(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    complainant_id = db.Column(UUID(as_uuid=True), db.ForeignKey('citizens.id'), nullable=False)
-    category_id = db.Column(UUID(as_uuid=True), db.ForeignKey('complaint_categories.id'), nullable=False)
-    assigned_to = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    complainant_id = db.Column(String(36), db.ForeignKey('citizens.id'), nullable=False)
+    category_id = db.Column(String(36), db.ForeignKey('complaint_categories.id'), nullable=False)
+    assigned_to = db.Column(String(36), db.ForeignKey('users.id'))
     
     # Relationships
     category = db.relationship('ComplaintCategory', backref='complaints')

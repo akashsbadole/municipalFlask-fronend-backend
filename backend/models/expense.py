@@ -1,12 +1,13 @@
 from datetime import datetime
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class Expense(db.Model):
     __tablename__ = 'expenses'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     expense_id = db.Column(db.String(20), unique=True, nullable=False)
     
     # Expense details
@@ -22,15 +23,15 @@ class Expense(db.Model):
     
     # Vendor details
     vendor_name = db.Column(db.String(100))
-    vendor_id = db.Column(UUID(as_uuid=True), db.ForeignKey('vendors.id'))
+    vendor_id = db.Column(String(36), db.ForeignKey('vendors.id'))
     invoice_number = db.Column(db.String(50))
     invoice_date = db.Column(db.Date)
     
     # Approval workflow
     status = db.Column(db.String(20), default='Pending')  # Pending, Approved, Rejected
-    submitted_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    submitted_by = db.Column(String(36), db.ForeignKey('users.id'))
     submitted_date = db.Column(db.DateTime, default=datetime.utcnow)
-    approved_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    approved_by = db.Column(String(36), db.ForeignKey('users.id'))
     approval_date = db.Column(db.DateTime)
     rejection_reason = db.Column(db.Text)
     
@@ -42,7 +43,7 @@ class Expense(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    budget_id = db.Column(UUID(as_uuid=True), db.ForeignKey('budgets.id'), nullable=False)
+    budget_id = db.Column(String(36), db.ForeignKey('budgets.id'), nullable=False)
     
     # Relationships
     vendor = db.relationship('Vendor', backref='expenses')

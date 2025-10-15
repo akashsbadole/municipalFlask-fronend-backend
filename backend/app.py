@@ -14,12 +14,6 @@ from extensions import db, migrate, jwt, cors, bcrypt, ma
 load_dotenv()
 
 # Initialize extensions
-db = SQLAlchemy()
-migrate = Migrate()
-jwt = JWTManager()
-cors = CORS()
-bcrypt = Bcrypt()
-ma = Marshmallow()
 
 def create_app(config_name='development'):
     app = Flask(__name__)
@@ -79,6 +73,33 @@ def create_app(config_name='development'):
     app.register_blueprint(egovernance_bp, url_prefix='/api/egovernance')
     app.register_blueprint(disaster_bp, url_prefix='/api/disaster')
     app.register_blueprint(reports_bp, url_prefix='/api')
+    
+    # Root route
+    @app.route('/')
+    def root():
+        return {
+            'message': 'Municipal Management System API',
+            'version': '1.0.0',
+            'status': 'Running',
+            'endpoints': {
+                'auth': '/api/auth',
+                'citizens': '/api/citizens',
+                'properties': '/api/properties',
+                'complaints': '/api/complaints',
+                'licenses': '/api/licenses',
+                'buildings': '/api/buildings',
+                'waste': '/api/waste',
+                'water': '/api/water',
+                'streetlights': '/api/streetlights',
+                'health': '/api/health',
+                'finance': '/api/finance',
+                'hr': '/api/hr',
+                'public_works': '/api/public-works',
+                'egovernance': '/api/egovernance',
+                'disaster': '/api/disaster',
+                'reports': '/'
+            }
+        }
     
     # Create upload directories if they don't exist
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)

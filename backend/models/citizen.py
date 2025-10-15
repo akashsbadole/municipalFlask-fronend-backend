@@ -1,12 +1,13 @@
 from datetime import datetime
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class Citizen(db.Model):
     __tablename__ = 'citizens'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     aadhaar_number = db.Column(db.String(12), unique=True, nullable=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
@@ -40,8 +41,8 @@ class Citizen(db.Model):
     properties = db.relationship('Property', backref='owner', lazy=True)
     complaints = db.relationship('Complaint', backref='complainant', lazy=True)
     trade_licenses = db.relationship('TradeLicense', backref='license_holder', lazy=True)
-    building_plans = db.relationship('BuildingPlan', backref='applicant', lazy=True)
-    water_connections = db.relationship('WaterConnection', backref='consumer', lazy=True)
+    building_plans = db.relationship('BuildingPlan', back_populates='applicant', lazy=True)
+    water_connections = db.relationship('WaterConnection', back_populates='consumer', lazy=True)
     
     def __init__(self, first_name, last_name, phone, date_of_birth, gender, 
                  address_line1, area, ward_number, zone, city, state, pincode,

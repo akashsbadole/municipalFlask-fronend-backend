@@ -1,12 +1,13 @@
 from datetime import datetime
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class StreetlightMaintenance(db.Model):
     __tablename__ = 'streetlight_maintenance'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     maintenance_id = db.Column(db.String(20), unique=True, nullable=False)
     
     # Maintenance details
@@ -25,14 +26,14 @@ class StreetlightMaintenance(db.Model):
     
     # Technician details
     technician_name = db.Column(db.String(100))
-    technician_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    technician_id = db.Column(String(36), db.ForeignKey('users.id'))
     
     # Status and timestamps
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    streetlight_id = db.Column(UUID(as_uuid=True), db.ForeignKey('streetlights.id'), nullable=False)
+    streetlight_id = db.Column(String(36), db.ForeignKey('streetlights.id'), nullable=False)
     
     # Relationships
     technician = db.relationship('User', backref='streetlight_maintenance')

@@ -4,7 +4,7 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
 import uuid
-from app import db
+from extensions import db
 from models.complaint import Complaint
 from models.complaint_category import ComplaintCategory
 from models.user import User

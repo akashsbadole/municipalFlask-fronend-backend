@@ -1,6 +1,6 @@
 from datetime import datetime
 import uuid
-from app import db
+from extensions import db
 from models.user import User
 
 class RTIRequest(db.Model):

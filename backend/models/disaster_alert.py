@@ -1,12 +1,13 @@
 from datetime import datetime
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class DisasterAlert(db.Model):
     __tablename__ = 'disaster_alerts'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     alert_id = db.Column(db.String(20), unique=True, nullable=False)
     
     # Alert details
@@ -42,7 +43,7 @@ class DisasterAlert(db.Model):
     sensor_data = db.Column(db.Text)  # JSON string with IoT sensor data
     
     # Issued by
-    issued_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    issued_by = db.Column(String(36), db.ForeignKey('users.id'))
     
     # Status and timestamps
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

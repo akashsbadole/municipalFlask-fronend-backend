@@ -1,17 +1,18 @@
 from datetime import datetime
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class WasteCollection(db.Model):
     __tablename__ = 'waste_collections'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     collection_id = db.Column(db.String(20), unique=True, nullable=False)
     
     # Collection details
     collection_date = db.Column(db.Date, nullable=False)
-    route_id = db.Column(UUID(as_uuid=True), db.ForeignKey('waste_routes.id'))
+    route_id = db.Column(String(36), db.ForeignKey('waste_routes.id'))
     vehicle_number = db.Column(db.String(20), nullable=False)
     driver_name = db.Column(db.String(100))
     helper_names = db.Column(db.String(255))

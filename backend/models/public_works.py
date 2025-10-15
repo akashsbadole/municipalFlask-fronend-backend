@@ -48,7 +48,7 @@ class Project(db.Model):
     created_by = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
     
     # Relationships
-    tenders = db.relationship('Tender', backref='project', lazy='dynamic', cascade='all, delete-orphan')
+    tenders = db.relationship('PublicWorksTender', backref='project', lazy='dynamic', cascade='all, delete-orphan')
     milestones = db.relationship('ProjectMilestone', backref='project', lazy='dynamic', cascade='all, delete-orphan')
     documents = db.relationship('ProjectDocument', backref='project', lazy='dynamic', cascade='all, delete-orphan')
     inspections = db.relationship('ProjectInspection', backref='project', lazy='dynamic', cascade='all, delete-orphan')
@@ -101,7 +101,7 @@ class Project(db.Model):
         }
 
 
-class Tender(db.Model):
+class PublicWorksTender(db.Model):
     __tablename__ = 'public_works_tenders'
     
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))

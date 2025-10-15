@@ -1,12 +1,13 @@
 from datetime import datetime, date
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class Leave(db.Model):
     __tablename__ = 'leaves'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     leave_id = db.Column(db.String(20), unique=True, nullable=False)
     
     # Leave details
@@ -23,7 +24,7 @@ class Leave(db.Model):
     applied_date = db.Column(db.Date, default=date.today)
     
     # Approval details
-    approved_by = db.Column(UUID(as_uuid=True), db.ForeignKey('employees.id'))
+    approved_by = db.Column(String(36), db.ForeignKey('employees.id'))
     approval_date = db.Column(db.DateTime)
     rejection_reason = db.Column(db.Text)
     
@@ -39,7 +40,7 @@ class Leave(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    employee_id = db.Column(UUID(as_uuid=True), db.ForeignKey('employees.id'), nullable=False)
+    employee_id = db.Column(String(36), db.ForeignKey('employees.id'), nullable=False)
     
     # Relationships
     approver = db.relationship('Employee', foreign_keys=[approved_by], backref='approved_leaves')

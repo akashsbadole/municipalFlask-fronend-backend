@@ -1,12 +1,13 @@
 from datetime import datetime, date
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class Tender(db.Model):
     __tablename__ = 'tenders'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     tender_id = db.Column(db.String(20), unique=True, nullable=False)
     
     # Tender details
@@ -30,7 +31,7 @@ class Tender(db.Model):
     status = db.Column(db.String(20), default='Published')  # Published, Closed, Under Evaluation, Awarded, Cancelled
     
     # Award details
-    awarded_to = db.Column(UUID(as_uuid=True), db.ForeignKey('vendors.id'))
+    awarded_to = db.Column(String(36), db.ForeignKey('vendors.id'))
     awarded_amount = db.Column(db.Float)
     awarded_date = db.Column(db.Date)
     

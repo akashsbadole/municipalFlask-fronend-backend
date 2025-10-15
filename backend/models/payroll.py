@@ -46,7 +46,7 @@ class Payroll(BaseModel):
     payment_status = Column(String(20), default='Pending')  # Pending, Processed, Failed
     
     # Foreign keys
-    employee_id = Column(UUID(as_uuid=True), ForeignKey('employees.id'), nullable=False)
+    employee_id = Column(String(36), ForeignKey('employees.id'), nullable=False)
     
     def __init__(self, payroll_id, payroll_month, payroll_year, payroll_date, 
                  basic_salary, employee_id, hra=0.0, da=0.0, ta=0.0, ma=0.0, 

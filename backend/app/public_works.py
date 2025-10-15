@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.user import User
-from models.public_works import Project, Tender, TenderBidder, ProjectMilestone, ProjectDocument, ProjectInspection, ProjectExpense
-from app import db
+from models.public_works import Project, PublicWorksTender as Tender, TenderBidder, ProjectMilestone, ProjectDocument, ProjectInspection, ProjectExpense
+from extensions import db
 from datetime import datetime, date
 import uuid
 import os

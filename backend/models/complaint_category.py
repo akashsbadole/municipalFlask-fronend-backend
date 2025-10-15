@@ -1,12 +1,13 @@
 from datetime import datetime
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 import uuid
 
 class ComplaintCategory(db.Model):
     __tablename__ = 'complaint_categories'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     department = db.Column(db.String(50), nullable=False)
@@ -14,7 +15,7 @@ class ComplaintCategory(db.Model):
     resolution_time_hours = db.Column(db.Integer, default=48)  # Expected resolution time in hours
     
     # Escalation matrix
-    escalation_matrix = db.Column(ARRAY(db.String))  # Roles to escalate to
+    escalation_matrix = db.Column(db.JSON)  # Roles to escalate to
     
     # Status and timestamps
     is_active = db.Column(db.Boolean, default=True)

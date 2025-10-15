@@ -1,12 +1,13 @@
 from datetime import datetime, date
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class PropertyTax(db.Model):
     __tablename__ = 'property_taxes'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     tax_id = db.Column(db.String(20), unique=True, nullable=False)
     year = db.Column(db.Integer, nullable=False)
     
@@ -39,7 +40,7 @@ class PropertyTax(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    property_id = db.Column(UUID(as_uuid=True), db.ForeignKey('properties.id'), nullable=False)
+    property_id = db.Column(String(36), db.ForeignKey('properties.id'), nullable=False)
     
     def __init__(self, tax_id, year, annual_value, tax_rate, due_date, property_id,
                  municipal_tax=None, education_tax=None, water_tax=None, 

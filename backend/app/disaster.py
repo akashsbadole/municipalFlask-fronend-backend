@@ -9,7 +9,7 @@ from models.user import User
 from models.citizen import Citizen
 from models.disaster_alert import DisasterAlert
 from models.emergency_team import EmergencyTeam
-from app import db
+from extensions import db
 from utils.auth import token_required, check_permission
 
 disaster_bp = Blueprint('disaster', __name__, url_prefix='/disaster')

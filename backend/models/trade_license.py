@@ -1,12 +1,13 @@
 from datetime import datetime, date
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class TradeLicense(db.Model):
     __tablename__ = 'trade_licenses'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     license_number = db.Column(db.String(20), unique=True, nullable=False)
     
     # Business details
@@ -40,14 +41,14 @@ class TradeLicense(db.Model):
     
     # Status and workflow
     status = db.Column(db.String(20), default='Applied')  # Applied, Under Review, Approved, Rejected, Issued, Expired
-    approved_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    approved_by = db.Column(String(36), db.ForeignKey('users.id'))
     approval_date = db.Column(db.DateTime)
     rejection_reason = db.Column(db.Text)
     
     # Inspection details
     inspection_required = db.Column(db.Boolean, default=True)
     inspection_date = db.Column(db.DateTime)
-    inspection_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    inspection_by = db.Column(String(36), db.ForeignKey('users.id'))
     inspection_report = db.Column(db.Text)
     inspection_status = db.Column(db.String(20))  # Pending, Passed, Failed
     
@@ -57,7 +58,7 @@ class TradeLicense(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    license_holder_id = db.Column(UUID(as_uuid=True), db.ForeignKey('citizens.id'), nullable=False)
+    license_holder_id = db.Column(String(36), db.ForeignKey('citizens.id'), nullable=False)
     
     # Relationships
     approver = db.relationship('User', foreign_keys=[approved_by], backref='approved_licenses')

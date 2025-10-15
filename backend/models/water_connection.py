@@ -1,12 +1,13 @@
 from datetime import datetime, date
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class WaterConnection(db.Model):
     __tablename__ = 'water_connections'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     connection_number = db.Column(db.String(20), unique=True, nullable=False)
     
     # Consumer details
@@ -49,10 +50,10 @@ class WaterConnection(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    consumer_id = db.Column(UUID(as_uuid=True), db.ForeignKey('citizens.id'), nullable=False)
+    consumer_id = db.Column(String(36), db.ForeignKey('citizens.id'), nullable=False)
     
     # Relationships
-    consumer = db.relationship('Citizen', backref='water_connections')
+    consumer = db.relationship('Citizen', back_populates='water_connections')
     meter_readings = db.relationship('WaterMeterReading', backref='connection', lazy=True)
     
     def __init__(self, connection_number, consumer_name, address_line1, area, ward_number, 

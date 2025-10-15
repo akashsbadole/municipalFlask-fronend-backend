@@ -1,12 +1,13 @@
 from datetime import datetime, date
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class WaterMeterReading(db.Model):
     __tablename__ = 'water_meter_readings'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     reading_id = db.Column(db.String(20), unique=True, nullable=False)
     
     # Reading details
@@ -23,7 +24,7 @@ class WaterMeterReading(db.Model):
     # Validation
     is_valid = db.Column(db.Boolean, default=True)
     validation_remarks = db.Column(db.Text)
-    validated_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    validated_by = db.Column(String(36), db.ForeignKey('users.id'))
     validation_date = db.Column(db.DateTime)
     
     # Status and timestamps
@@ -31,7 +32,7 @@ class WaterMeterReading(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    connection_id = db.Column(UUID(as_uuid=True), db.ForeignKey('water_connections.id'), nullable=False)
+    connection_id = db.Column(String(36), db.ForeignKey('water_connections.id'), nullable=False)
     
     # Relationships
     validator = db.relationship('User', backref='validated_meter_readings')

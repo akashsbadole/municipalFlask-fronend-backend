@@ -8,10 +8,10 @@ from models.user import User
 from models.public_notice import PublicNotice
 from models.rti_request import RTIRequest
 from models.document import Document, DocumentAccess
-from app import db
+from extensions import db
 from utils.auth import token_required, check_permission
 
-egovernance_bp = Blueprint('egovernance', __name__, url_prefix='/egov')
+egovernance_bp = Blueprint('egovernance', __name__)
 
 # Helper function to check if user has access to document
 def can_access_document(user_id, document_id, access_type='View'):

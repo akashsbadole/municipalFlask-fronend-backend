@@ -4,7 +4,7 @@ from models.user import User
 from models.employee import Employee, SalaryComponent, Attendance, Leave, LeaveBalance
 from models.payroll import Payroll
 from models.role import Role
-from app import db
+from extensions import db
 from datetime import datetime, date
 import calendar
 import uuid

@@ -1,12 +1,16 @@
 from datetime import datetime
-from app import db, bcrypt
+from extensions import db
+from flask_bcrypt import Bcrypt
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
+
+bcrypt = Bcrypt()
 
 class User(db.Model):
     __tablename__ = 'users'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
@@ -20,8 +24,8 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Foreign keys
-    role_id = db.Column(UUID(as_uuid=True), db.ForeignKey('roles.id'), nullable=False)
-    citizen_id = db.Column(UUID(as_uuid=True), db.ForeignKey('citizens.id'), nullable=True)
+    role_id = db.Column(String(36), db.ForeignKey('roles.id'), nullable=False)
+    citizen_id = db.Column(String(36), db.ForeignKey('citizens.id'), nullable=True)
     
     # Relationships
     role = db.relationship('Role', backref='users')

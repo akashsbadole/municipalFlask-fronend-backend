@@ -244,7 +244,7 @@ class FinancialReport(BaseModel):
     approved_at = Column(DateTime)
     
     # Relationships
-    generator = relationship("User", backref="generated_reports")
+    generator = relationship("User", foreign_keys=[generated_by], backref="generated_reports")
     approver = relationship("User", foreign_keys=[approved_by], backref="approved_reports")
     
     def to_dict(self):

@@ -6,7 +6,7 @@ from flask_jwt_extended import (
 from datetime import datetime, timedelta
 import re
 import uuid
-from app import db
+from extensions import db
 from models.user import User
 from models.role import Role
 from models.citizen import Citizen
@@ -15,6 +15,24 @@ auth_bp = Blueprint('auth', __name__)
 
 # Store revoked tokens in a set (in production, use Redis or database)
 revoked_tokens = set()
+
+@auth_bp.route('/', methods=['GET'])
+def auth_root():
+    """Auth endpoints information"""
+    return jsonify({
+        'message': 'Authentication endpoints',
+        'endpoints': {
+            'register': '/register',
+            'login': '/login',
+            'refresh': '/refresh',
+            'logout': '/logout',
+            'change_password': '/change-password',
+            'profile': '/profile',
+            'roles': '/roles',
+            'init_roles': '/init-roles',
+            'verify_token': '/verify-token'
+        }
+    }), 200
 
 @auth_bp.route('/register', methods=['POST'])
 def register():

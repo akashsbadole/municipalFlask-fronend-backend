@@ -1,12 +1,13 @@
 from datetime import datetime
-from app import db
+from extensions import db
+from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 class Budget(db.Model):
     __tablename__ = 'budgets'
     
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(String(36), primary_key=True, default=uuid.uuid4)
     budget_id = db.Column(db.String(20), unique=True, nullable=False)
     
     # Budget details
@@ -25,7 +26,7 @@ class Budget(db.Model):
     status = db.Column(db.String(20), default='Approved')  # Draft, Approved, Rejected, Closed
     
     # Approval details
-    approved_by = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
+    approved_by = db.Column(String(36), db.ForeignKey('users.id'))
     approval_date = db.Column(db.DateTime)
     
     # Status and timestamps
