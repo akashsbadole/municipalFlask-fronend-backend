@@ -2,6 +2,11 @@
 
 A comprehensive web-based SaaS solution for digitizing and automating municipal corporation operations, improving service delivery, citizen engagement, tax collection, waste management, and infrastructure tracking.
 
+## Screenshot
+
+![municipal](municipal.png "Dashboard")
+
+
 ## Features
 
 ### Core Modules
