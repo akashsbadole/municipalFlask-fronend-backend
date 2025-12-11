@@ -499,7 +499,7 @@ const AdminLicensesPage: React.FC = () => {
                     
                     {/* Page numbers */}
                     {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      let pageNum;
+                      let pageNum: number;
                       if (totalPages <= 5) {
                         pageNum = i + 1;
                       } else if (currentPage <= 3) {

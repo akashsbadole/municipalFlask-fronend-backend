@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   HomeIcon,
   BuildingOfficeIcon,
@@ -18,8 +18,8 @@ import {
   ArrowRightOnRectangleIcon,
   Bars3Icon,
   XMarkIcon,
-} from '@heroicons/react/24/outline';
-import { toast } from 'react-toastify';
+} from "@heroicons/react/24/outline";
+import { toast } from "react-toastify";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -32,139 +32,160 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const handleLogout = async () => {
     await logout();
-    router.push('/auth/login');
+    router.push("/auth/login");
   };
 
   const navigation = [
     {
-      name: 'Dashboard',
-      href: user?.role === 'Citizen' ? '/citizen' : (user?.role === 'Super Admin' || user?.role === 'Municipal Commissioner' || user?.role === 'Department Head') ? '/admin' : '/dashboard',
+      name: "Dashboard",
+      href:
+        user?.role === "Citizen"
+          ? "/citizen"
+          : user?.role === "Super Admin" ||
+            user?.role === "Municipal Commissioner" ||
+            user?.role === "Department Head"
+          ? "/admin"
+          : "/dashboard",
       icon: HomeIcon,
       permission: null, // All authenticated users
     },
     {
-      name: 'Citizens',
-      href: '/citizens',
+      name: "Citizens",
+      href: "/citizens",
       icon: UserGroupIcon,
-      permission: 'citizen.read',
+      permission: "citizen.read",
     },
     {
-      name: 'Properties',
-      href: '/properties',
+      name: "Properties",
+      href: "/properties",
       icon: BuildingOfficeIcon,
-      permission: 'property.read',
+      permission: "property.read",
     },
     {
-      name: 'Complaints',
-      href: '/complaints',
+      name: "Complaints",
+      href: "/complaints",
       icon: DocumentTextIcon,
-      permission: 'complaint.read',
+      permission: "complaint.read",
     },
     {
-      name: 'Licenses',
-      href: '/licenses',
+      name: "Licenses",
+      href: "/licenses",
       icon: ClipboardDocumentListIcon,
-      permission: 'license.read',
+      permission: "license.read",
     },
     {
-      name: 'Building Plans',
-      href: '/buildings',
+      name: "Building Plans",
+      href: "/buildings",
       icon: BuildingOfficeIcon,
-      permission: 'building.read',
+      permission: "building.read",
     },
     {
-      name: 'Waste Management',
-      href: '/waste',
+      name: "Waste Management",
+      href: "/waste",
       icon: TruckIcon,
-      permission: 'waste.read',
+      permission: "waste.read",
     },
     {
-      name: 'Water Supply',
-      href: '/water',
+      name: "Water Supply",
+      href: "/water",
       icon: FireIcon,
-      permission: 'water.read',
+      permission: "water.read",
     },
     {
-      name: 'Streetlights',
-      href: '/streetlights',
+      name: "Streetlights",
+      href: "/streetlights",
       icon: LightBulbIcon,
-      permission: 'streetlight.read',
+      permission: "streetlight.read",
     },
     {
-      name: 'Health & Sanitation',
-      href: '/health',
+      name: "Health & Sanitation",
+      href: "/health",
       icon: FireIcon,
-      permission: 'health.read',
+      permission: "health.read",
     },
     {
-      name: 'Finance',
-      href: '/finance',
+      name: "Finance",
+      href: "/finance",
       icon: CurrencyDollarIcon,
-      permission: 'finance.read',
+      permission: "finance.read",
     },
     {
-      name: 'HR & Payroll',
-      href: '/hr',
+      name: "HR & Payroll",
+      href: "/hr",
       icon: BriefcaseIcon,
-      permission: 'hr.read',
+      permission: "hr.read",
     },
     {
-      name: 'Public Works',
-      href: '/public-works',
+      name: "Public Works",
+      href: "/public-works",
       icon: BuildingOfficeIcon,
-      permission: 'public_works.read',
+      permission: "public_works.read",
     },
     {
-      name: 'E-Governance',
-      href: '/egov',
+      name: "E-Governance",
+      href: "/egov",
       icon: DocumentTextIcon,
-      permission: 'egov.read',
+      permission: "egov.read",
     },
     {
-      name: 'Disaster Management',
-      href: '/disaster',
+      name: "Disaster Management",
+      href: "/disaster",
       icon: FireIcon,
-      permission: 'disaster.read',
+      permission: "disaster.read",
     },
     {
-      name: 'Reports',
-      href: '/reports',
+      name: "Reports",
+      href: "/reports",
       icon: DocumentTextIcon,
-      permission: 'reports.read',
+      permission: "reports.read",
     },
     {
-      name: 'User Management',
-      href: '/admin/users',
+      name: "User Management",
+      href: "/admin/users",
       icon: UserGroupIcon,
-      permission: 'user.read',
+      permission: "user.read",
     },
   ];
 
-  const filteredNavigation = navigation.filter(item => 
-    !item.permission || hasPermission(item.permission)
+  const filteredNavigation = navigation.filter(
+    (item) => !item.permission || hasPermission(item.permission)
   );
 
   const isActive = (href: string) => {
-    if (href === '/dashboard') {
-      return router.pathname === '/dashboard';
+    if (href === "/dashboard") {
+      return router.pathname === "/dashboard";
     }
     return router.pathname.startsWith(href);
   };
 
   if (!isAuthenticated) {
-    return <>{children}</>;
+    return <div className="min-h-screen bg-gray-50">{children}</div>;
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Mobile sidebar */}
-      <div className={`fixed inset-0 z-40 md:hidden ${sidebarOpen ? '' : 'pointer-events-none'}`}>
-        <div className={`absolute inset-0 bg-gray-600 transition-opacity ${sidebarOpen ? 'opacity-75' : 'opacity-0'}`}
-             onClick={() => setSidebarOpen(false)} />
-        
-        <div className={`relative flex flex-col max-w-xs w-full bg-white transform transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div
+        className={`fixed inset-0 z-40 md:hidden ${
+          sidebarOpen ? "" : "pointer-events-none"
+        }`}
+      >
+        <div
+          className={`absolute inset-0 bg-gray-600 transition-opacity ${
+            sidebarOpen ? "opacity-75" : "opacity-0"
+          }`}
+          onClick={() => setSidebarOpen(false)}
+        />
+
+        <div
+          className={`relative flex flex-col max-w-xs w-full bg-white transform transition-transform ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
           <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-            <h1 className="text-lg font-semibold text-gray-900">Municipal Corp</h1>
+            <h1 className="text-lg font-semibold text-gray-900">
+              Municipal Corp
+            </h1>
             <button
               type="button"
               className="text-gray-400 hover:text-gray-500 focus:outline-none"
@@ -173,7 +194,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <XMarkIcon className="h-6 w-6" />
             </button>
           </div>
-          
+
           <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
             {filteredNavigation.map((item) => (
               <Link
@@ -181,16 +202,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 href={item.href}
                 className={`${
                   isActive(item.href)
-                    ? 'bg-primary-100 text-primary-900'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? "bg-primary-100 text-primary-900"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                 } group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
                 onClick={() => setSidebarOpen(false)}
               >
                 <item.icon
                   className={`${
                     isActive(item.href)
-                      ? 'text-primary-500'
-                      : 'text-gray-400 group-hover:text-gray-500'
+                      ? "text-primary-500"
+                      : "text-gray-400 group-hover:text-gray-500"
                   } mr-3 h-5 w-5`}
                 />
                 {item.name}
@@ -204,9 +225,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
         <div className="flex flex-col flex-grow pt-5 bg-white border-r border-gray-200 overflow-y-auto">
           <div className="flex items-center flex-shrink-0 px-4">
-            <h1 className="text-xl font-bold text-gray-900">Municipal Corporation</h1>
+            <h1 className="text-xl font-bold text-gray-900">
+              Municipal Corporation
+            </h1>
           </div>
-          
+
           <nav className="flex-1 px-2 mt-5 space-y-1">
             {filteredNavigation.map((item) => (
               <Link
@@ -214,15 +237,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 href={item.href}
                 className={`${
                   isActive(item.href)
-                    ? 'bg-primary-100 text-primary-900'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? "bg-primary-100 text-primary-900"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                 } group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
               >
                 <item.icon
                   className={`${
                     isActive(item.href)
-                      ? 'text-primary-500'
-                      : 'text-gray-400 group-hover:text-gray-500'
+                      ? "text-primary-500"
+                      : "text-gray-400 group-hover:text-gray-500"
                   } mr-3 h-5 w-5`}
                 />
                 {item.name}
@@ -243,14 +266,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           >
             <Bars3Icon className="h-6 w-6" />
           </button>
-          
+
           <div className="flex-1 flex justify-between items-center px-4 md:px-6">
             <div className="flex-1">
               <h2 className="text-lg font-semibold text-gray-900">
-                {navigation.find(item => isActive(item.href))?.name || 'Dashboard'}
+                {navigation.find((item) => isActive(item.href))?.name ||
+                  "Dashboard"}
               </h2>
             </div>
-            
+
             <div className="ml-4 flex items-center md:ml-6 space-x-4">
               {/* Notifications */}
               <button
@@ -259,7 +283,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               >
                 <BellIcon className="h-6 w-6" />
               </button>
-              
+
               {/* User dropdown */}
               <div className="relative">
                 <button
@@ -269,22 +293,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <span className="sr-only">Open user menu</span>
                   <UserCircleIcon className="h-8 w-8 text-gray-400" />
                 </button>
-                
+
                 {/* User menu dropdown - simplified for now */}
                 <div className="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                   <div className="py-1">
                     <div className="px-4 py-2 text-sm text-gray-700 border-b">
-                      <div className="font-medium">{user?.first_name} {user?.last_name}</div>
+                      <div className="font-medium">
+                        {user?.first_name} {user?.last_name}
+                      </div>
                       <div className="text-gray-500">{user?.role}</div>
                     </div>
-                    
+
                     <Link
-                      href={user?.role === 'Citizen' ? '/citizen/profile' : '/profile'}
+                      href={
+                        user?.role === "Citizen"
+                          ? "/citizen/profile"
+                          : "/profile"
+                      }
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Your Profile
                     </Link>
-                    
+
                     <button
                       type="button"
                       onClick={handleLogout}

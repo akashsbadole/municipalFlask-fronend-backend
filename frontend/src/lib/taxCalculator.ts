@@ -123,7 +123,7 @@ export const calculatePropertyTax = (
   const areaRate = baseRate * property.area_sqft;
   
   // Apply zone multiplier
-  const zoneMultiplier = ZONE_MULTIPLERS[property.zone as keyof typeof ZONE_MULTIPLIERS] || 1.0;
+  const zoneMultiplier = ZONE_MULTIPLIERS[property.zone as keyof typeof ZONE_MULTIPLIERS] || 1.0;
   
   // Apply ward adjustment
   const wardAdjustment = WARD_ADJUSTMENTS[property.ward] || 1.0;

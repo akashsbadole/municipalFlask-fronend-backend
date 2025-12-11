@@ -22,8 +22,8 @@ import {
   ExclamationTriangleIcon,
   CheckCircleIcon,
   ClockIcon,
-  TrendingUpIcon,
-  TrendingDownIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
   MagnifyingGlassIcon,
   FunnelIcon,
 } from '@heroicons/react/24/outline';
@@ -432,12 +432,12 @@ const AdminDashboard: React.FC = () => {
                   <div className="mt-1 flex items-center text-sm">
                     {parseFloat(revenueGrowth) > 0 ? (
                       <span className="text-green-500 flex items-center">
-                        <TrendingUpIcon className="h-4 w-4 mr-1" />
+                        <ArrowTrendingUpIcon className="h-4 w-4 mr-1" />
                         {revenueGrowth}%
                       </span>
                     ) : (
                       <span className="text-red-500 flex items-center">
-                        <TrendingDownIcon className="h-4 w-4 mr-1" />
+                        <ArrowTrendingDownIcon className="h-4 w-4 mr-1" />
                         {revenueGrowth}%
                       </span>
                     )}

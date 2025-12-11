@@ -7,67 +7,79 @@ A comprehensive web-based SaaS solution for digitizing and automating municipal 
 ### Core Modules
 
 1. **Citizen Management**
+
    - Citizen registration with Aadhaar/Mobile/Email verification
    - Profile management with address details
    - Digital identity verification
 
 2. **Property & Tax Management**
+
    - Property registration with GIS mapping integration
    - Automated tax calculation based on ward, area, building type
    - Online payment integration
    - Defaulter lists and automated notices
 
 3. **Trade License & Business Permits**
+
    - Digital license application and renewal
    - Inspection scheduling and approval workflow
    - Online fee payment and digital certificates
 
 4. **Building Plan Approval System (BPAS)**
+
    - Architect/Engineer registration
    - Digital plan upload with auto-compliance checks
    - Multi-level approval workflow
    - Online fee payment and e-sanction certificates
 
 5. **Solid Waste Management (SWM)**
+
    - Ward-wise route planning with vehicle tracking
    - Garbage collection monitoring
    - Waste segregation analytics
    - Vendor and contractor management
 
 6. **Water Supply & Drainage**
+
    - Water connection application and billing
    - Meter readings with IoT integration
    - Water usage analytics
    - Drainage maintenance logs
 
 7. **Streetlight & Electrical Maintenance**
+
    - Streetlight mapping via GIS
    - Repair ticketing with performance metrics
    - Maintenance team assignment
 
 8. **Health & Sanitation Department**
+
    - Public health monitoring
    - Food license and inspection
    - Waste disposal management
 
 9. **Finance & Budgeting**
+
    - Department-wise budget planning
    - Vendor payments and contracts
    - Financial reports and dashboards
    - Audit trail
 
 10. **Human Resource (HR) & Payroll**
+
     - Employee directory
     - Payroll system with salary slips
     - Leave and transfer management
     - Performance appraisal
 
 11. **Public Works & Infrastructure**
+
     - Project tracking dashboard
     - Tender management
     - GIS integration for real-time mapping
 
 12. **E-Governance & Transparency**
+
     - Public notice board
     - RTI (Right to Information) portal
     - Document management system
@@ -81,6 +93,7 @@ A comprehensive web-based SaaS solution for digitizing and automating municipal 
 ## Technology Stack
 
 ### Backend
+
 - **Framework**: Flask (Python)
 - **Database**: PostgreSQL
 - **Authentication**: JWT (JSON Web Tokens)
@@ -88,6 +101,7 @@ A comprehensive web-based SaaS solution for digitizing and automating municipal 
 - **API Documentation**: RESTful APIs
 
 ### Frontend
+
 - **Framework**: Next.js (React)
 - **Styling**: Tailwind CSS
 - **Charts**: Chart.js
@@ -135,6 +149,7 @@ municipal/
 ## Installation & Setup
 
 ### Prerequisites
+
 - Python 3.8+
 - Node.js 14+
 - PostgreSQL 12+
@@ -142,28 +157,33 @@ municipal/
 ### Backend Setup
 
 1. Navigate to the backend directory:
+
    ```bash
    cd backend
    ```
 
 2. Create a virtual environment:
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. Set up environment variables:
+
    ```bash
    cp .env.example .env
    # Edit .env with your configuration
    ```
 
 5. Initialize the database:
+
    ```bash
    python db_init.py
    ```
@@ -178,16 +198,19 @@ The backend API will be available at `http://localhost:5000`
 ### Frontend Setup
 
 1. Navigate to the frontend directory:
+
    ```bash
    cd frontend
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Set up environment variables:
+
    ```bash
    # Create .env.local file
    echo "NEXT_PUBLIC_API_URL=http://localhost:5000/api" > .env.local
@@ -229,3 +252,27 @@ This project is licensed under the MIT License.
 ## Support
 
 For support and queries, please contact the development team.
+
+## testing
+
+> curl -X POST http://localhost:5000/api/auth/login -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"admin123\"}"
+> {
+> "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2MDU1NzMzMywianRpIjoiMjQ5YTI2ZmItNWYyYi00ODlmLThmMGYtMGQ2Y2NjZDIyY2FmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Ijg0YzRlZDFmLWQ3NmYtNDRmZS1hODBkLTU5ZDAwNWJkMGFmNCIsIm5iZiI6MTc2MDU1NzMzMywiZXhwIjoxNzYwNjQzNzMzfQ.vwMj_svSweMq6MRJhD2E2uGnZh4d59tcv951lOxmvR4",
+> "message": "Login successful",
+> "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2MDU1NzMzMywianRpIjoiNWI3YTBlNTAtNTBiMy00MjhkLWI3NjUtYWMzMTVjMDAwN2JkIiwidHlwZSI6InJlZnJlc2giLCJzdWIiOiI4NGM0ZWQxZi1kNzZmLTQ0ZmUtYTgwZC01OWQwMDViZDBhZjQiLCJuYmYiOjE3NjA1NTczMzMsImV4cCI6MTc2MzE0OTMzM30.WhYuDzPWHAwBy_TkPZH5Y2mkz23mgCkjsLMm2XiiQ9g",
+> "user": {
+
+    "created_at": "2025-10-15T19:41:07.549946",
+    "email": "admin@municipal.com",
+    "first_name": "System",
+    "id": "84c4ed1f-d76f-44fe-a80d-59d005bd0af4",
+    "is_active": true,
+    "is_verified": true,
+    "last_login": "2025-10-15T19:42:13.170581",
+    "last_name": "Administrator",
+    "phone": "1234567890",
+    "role": "Super Admin",
+    "username": "admin"
+
+}
+}

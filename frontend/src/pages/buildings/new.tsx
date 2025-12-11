@@ -114,7 +114,8 @@ const NewBuildingPlanPage: React.FC = () => {
         const reader = new FileReader();
         reader.onload = (event) => {
           if (event.target?.result) {
-            setDocumentPreviews(prev => [...prev, event.target.result as string]);
+            const result = event.target.result as string;
+            setDocumentPreviews(prev => [...prev, result]);
           }
         };
         reader.readAsDataURL(doc);
@@ -188,7 +189,7 @@ const NewBuildingPlanPage: React.FC = () => {
       // Add form fields
       Object.entries(formData).forEach(([key, value]) => {
         if (key !== 'declaration') {
-          formDataToSend.append(key, value);
+          formDataToSend.append(key, value.toString());
         }
       });
       

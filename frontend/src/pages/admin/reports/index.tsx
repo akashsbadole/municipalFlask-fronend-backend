@@ -23,6 +23,7 @@ import {
   TableCellsIcon,
   DocumentTextIcon,
   ArrowDownTrayIcon,
+  CurrencyDollarIcon,
 } from '@heroicons/react/24/outline';
 
 ChartJS.register(
